@@ -1,0 +1,38 @@
+# Importing Libraries
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+
+# Defining Function
+def Pear_core(df1):
+
+  # Calculating Pearson Corellation
+  pear_cor = df1.corr(method='pearson')
+
+  # Visualizing Pearson Corellation
+  sns.heatmap(pear_cor, 
+            xticklabels=pear_cor.columns,
+            yticklabels=pear_cor.columns,
+            cmap='RdBu_r',
+            annot=True,
+            linewidth=0.5)
+  
+  # Cheking for the columns having Pearson Corellation more than 0.8
+  for key , value in pear_cor.items():
+    for x in value:
+      if x > 0.8:
+        print(key, x)
+      
+  # Droping column if Pearson Corellation > 0.8
+  for key,val in pear_cor.items():
+    for x in val:
+      if x > 0.8:
+        pear_cor.drop(key,inplace=True, axis = 1)
+        print(pear_cor)
+            
+# Importing DataFrame            
+df1 = pd.read_csv("/content/master.csv")
+
+# Function Call
+Pear_core(df1)
